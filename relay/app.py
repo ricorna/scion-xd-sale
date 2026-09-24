@@ -18,6 +18,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 TWILIO_AUTH_TOKEN = os.environ["TWILIO_AUTH_TOKEN"]
 TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 TELEGRAM_CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
+TELEGRAM_THREAD_ID = os.environ.get("TELEGRAM_THREAD_ID", "").strip()  # topic/thread in a topics-enabled chat
 PUBLIC_URL = os.environ["PUBLIC_URL"].rstrip("/")  # e.g. https://scion-sms.contextra.io
 LABEL = os.environ.get("RELAY_LABEL", "Scion xD")
 EMPTY_TWIML = b'<?xml version="1.0" encoding="UTF-8"?><Response></Response>'
@@ -35,8 +36,11 @@ def pretty_number(n: str) -> str:
 
 
 def send_telegram(text: str) -> None:
-    body = json.dumps({"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "HTML",
-                       "disable_web_page_preview": True}).encode()
+    payload = {"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "HTML",
+               "disable_web_page_preview": True}
+    if TELEGRAM_THREAD_ID:
+        payload["message_thread_id"] = int(TELEGRAM_THREAD_ID)
+    body = json.dumps(payload).encode()
     req = urllib.request.Request(
         f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage",
         data=body, headers={"Content-Type": "application/json"})
