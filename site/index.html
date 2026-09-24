@@ -56,11 +56,12 @@ footer{color:var(--muted);font-size:14px;padding:26px 20px calc(96px + env(safe-
 .sticky{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);border-top:1px solid var(--line);backdrop-filter:blur(8px)}
 .sticky .btn{max-width:none;min-height:48px;font-size:16px}
 .sticky .call{background:var(--plum);color:#fff}
-.sticky .text{background:#fff;color:var(--plum);border:2px solid var(--plum);font-weight:700}
+.sticky .text{background:#fff;color:var(--plum);border:2px solid var(--plum);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
 @media(min-width:820px){.sticky{display:none}footer{padding-bottom:30px}}
 @media (max-width:480px){
   .cta{flex-direction:column}
-  .btn{max-width:none;flex:0 0 auto;width:100%}
+  .btn{max-width:none;flex:0 0 auto;width:100%;font-size:15px}
+  .btn.text{font-size:14px}
 }
 
 </style>
@@ -134,7 +135,7 @@ footer{color:var(--muted);font-size:14px;padding:26px 20px calc(96px + env(safe-
 
 <div class="sticky">
   <a class="btn call" href="tel:+19313406265">Call</a>
-  <a class="btn text" href="sms:+19313406265?body=Hi%2C%20I%27m%20interested%20in%20the%202012%20Scion%20xD.">Text</a>
+  <a class="btn text" href="sms:+19313406265?body=Hi%2C%20I%27m%20interested%20in%20the%202012%20Scion%20xD.">Text (931) 340-6265</a>
 </div>
 
 <script>
