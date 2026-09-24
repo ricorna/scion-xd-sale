@@ -10,6 +10,7 @@ import hmac
 import html
 import json
 import os
+import socket
 import urllib.parse
 import urllib.request
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -91,5 +92,14 @@ class Handler(BaseHTTPRequestHandler):
         self._send(200, EMPTY_TWIML, "text/xml")
 
 
+class DualStackServer(ThreadingHTTPServer):
+    """Listen on IPv6 and IPv4 so health checks against `localhost` (::1) succeed."""
+    address_family = socket.AF_INET6
+
+    def server_bind(self):
+        self.socket.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 0)
+        super().server_bind()
+
+
 if __name__ == "__main__":
-    ThreadingHTTPServer(("0.0.0.0", 8080), Handler).serve_forever()
+    DualStackServer(("::", 8080), Handler).serve_forever()
