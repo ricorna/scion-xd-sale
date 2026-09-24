@@ -30,7 +30,7 @@ h1{font-size:clamp(28px,6vw,44px);line-height:1.1;margin:0 0 10px;letter-spacing
 .cta{display:flex;gap:10px;flex-wrap:wrap}
 .btn{white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 22px;border-radius:12px;font-weight:650;font-size:17px;text-decoration:none;flex:1 1 160px;max-width:260px}
 .btn.call{background:#fff;color:var(--plum)}
-.btn.text{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.6)}
+.btn.text{background:rgba(255,255,255,.18);color:#fff;border:2px solid #fff}
 .btn svg{width:20px;height:20px}
 main.wrap{padding-top:28px;padding-bottom:12px}
 .gallery-main{border-radius:14px;overflow:hidden;background:#ddd;aspect-ratio:4/3}
@@ -56,8 +56,13 @@ footer{color:var(--muted);font-size:14px;padding:26px 20px calc(96px + env(safe-
 .sticky{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);border-top:1px solid var(--line);backdrop-filter:blur(8px)}
 .sticky .btn{max-width:none;min-height:48px;font-size:16px}
 .sticky .call{background:var(--plum);color:#fff}
-.sticky .text{color:var(--plum);border-color:var(--plum)}
+.sticky .text{background:#fff;color:var(--plum);border:2px solid var(--plum);font-weight:700}
 @media(min-width:820px){.sticky{display:none}footer{padding-bottom:30px}}
+@media (max-width:480px){
+  .cta{flex-direction:column}
+  .btn{max-width:none;flex:0 0 auto;width:100%}
+}
+
 </style>
 </head>
 <body>
@@ -71,7 +76,7 @@ footer{color:var(--muted);font-size:14px;padding:26px 20px calc(96px + env(safe-
     </ul>
     <div class="cta">
       <a class="btn call" href="tel:+19313406265"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>Call (931) 340-6265</a>
-      <a class="btn text" href="sms:+19313406265?&body=Hi%2C%20I%27m%20interested%20in%20the%202012%20Scion%20xD."><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 1-2z"/></svg>Text</a>
+      <a class="btn text" href="sms:+19313406265?body=Hi%2C%20I%27m%20interested%20in%20the%202012%20Scion%20xD."><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 1-2z"/></svg>Text (931) 340-6265</a>
     </div>
   </div>
 </header>
@@ -129,7 +134,7 @@ footer{color:var(--muted);font-size:14px;padding:26px 20px calc(96px + env(safe-
 
 <div class="sticky">
   <a class="btn call" href="tel:+19313406265">Call</a>
-  <a class="btn text" href="sms:+19313406265?&body=Hi%2C%20I%27m%20interested%20in%20the%202012%20Scion%20xD.">Text</a>
+  <a class="btn text" href="sms:+19313406265?body=Hi%2C%20I%27m%20interested%20in%20the%202012%20Scion%20xD.">Text</a>
 </div>
 
 <script>
