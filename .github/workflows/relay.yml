@@ -1,0 +1,48 @@
+name: Relay checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s relay/tests -v
+      - run: python -m py_compile relay/app.py relay/tests/test_app.py
+  dco:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check sign-off on PR commits
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        shell: python
+        run: |
+          import os, subprocess, sys
+          commits = subprocess.check_output([
+              'git', 'rev-list', '--no-merges',
+              os.environ['BASE_SHA'] + '..' + os.environ['HEAD_SHA']
+          ], text=True).splitlines()
+          failed = False
+          for commit in commits:
+              name, email, body = subprocess.check_output([
+                  'git', 'show', '-s', '--format=%an%n%ae%n%B', commit
+              ], text=True).split('\n', 2)
+              if email.endswith('[bot]@users.noreply.github.com'):
+                  continue
+              trailers = subprocess.check_output(
+                  ['git', 'interpret-trailers', '--parse'], input=body, text=True)
+              expected = f'Signed-off-by: {name} <{email}>'
+              if expected.casefold() not in [line.casefold() for line in trailers.splitlines()]:
+                  print(f'{commit[:12]}: missing author Signed-off-by trailer (use git commit -s)')
+                  failed = True
+          sys.exit(1 if failed else 0)
